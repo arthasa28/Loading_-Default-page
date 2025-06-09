@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proses Pembuatan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #1e3a8a 50%, #3730a3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Effects */
+        .bg-effect {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: pulse 3s infinite;
+        }
+
+        .bg-effect-1 {
+            top: 25%;
+            left: 25%;
+            width: 256px;
+            height: 256px;
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        .bg-effect-2 {
+            bottom: 25%;
+            right: 25%;
+            width: 320px;
+            height: 320px;
+            background: rgba(59, 130, 246, 0.2);
+            animation-delay: 1s;
+        }
+
+        .bg-effect-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 384px;
+            height: 384px;
+            background: rgba(99, 102, 241, 0.1);
+            animation-delay: 0.5s;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Loading Spinner */
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .spinner {
+            position: relative;
+            width: 96px;
+            height: 96px;
+        }
+
+        .spinner-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .spinner-ring-1 {
+            width: 96px;
+            height: 96px;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner-ring-2 {
+            top: 8px;
+            left: 8px;
+            width: 80px;
+            height: 80px;
+            border-top-color: #a855f7;
+            animation: spin 1s linear infinite;
+            animation-delay: 0.15s;
+        }
+
+        .spinner-ring-3 {
+            top: 16px;
+            left: 16px;
+            width: 64px;
+            height: 64px;
+            border-top-color: #3b82f6;
+            animation: spin 1s linear infinite;
+            animation-delay: 0.3s;
+        }
+
+        /* Main Heading */
+        .main-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, white, #e9d5ff, #dbeafe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Subtitle */
+        .subtitle-container {
+            margin-bottom: 32px;
+            animation: fadeIn 0.6s ease-out;
+            animation-delay: 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .subtitle-main {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .subtitle-secondary {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 400px;
+            margin: 0 auto 32px;
+            animation: fadeIn 0.6s ease-out;
+            animation-delay: 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            height: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+        }
+
+        .progress-fill {
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            height: 100%;
+            border-radius: 12px;
+            width: 75%;
+            animation: pulse 2s infinite;
+            transition: width 1s ease;
+        }
+
+        .progress-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            margin-top: 8px;
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+            animation-delay: 0.7s;
+            animation-fill-mode: both;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-1 { background: linear-gradient(135deg, #a855f7, #3b82f6); }
+        .icon-2 { background: linear-gradient(135deg, #3b82f6, #6366f1); }
+        .icon-3 { background: linear-gradient(135deg, #6366f1, #a855f7); }
+
+        .feature-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        /* Contact Info */
+        .contact {
+            margin-top: 48px;
+            animation: fadeIn 0.6s ease-out;
+            animation-delay: 1s;
+            animation-fill-mode: both;
+        }
+
+        .contact-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+        }
+
+        .contact-email {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        /* Floating Elements */
+        .floating-dot {
+            position: absolute;
+            border-radius: 50%;
+            animation: bounce 2s infinite;
+        }
+
+        .dot-1 {
+            top: 40px;
+            left: 40px;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.3);
+            animation-delay: 0.2s;
+        }
+
+        .dot-2 {
+            top: 80px;
+            right: 80px;
+            width: 12px;
+            height: 12px;
+            background: rgba(168, 85, 247, 0.5);
+            animation-delay: 0.7s;
+        }
+
+        .dot-3 {
+            bottom: 80px;
+            left: 80px;
+            width: 20px;
+            height: 20px;
+            background: rgba(59, 130, 246, 0.4);
+            animation-delay: 1s;
+        }
+
+        .dot-4 {
+            bottom: 40px;
+            right: 40px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            animation-delay: 0.5s;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle-main {
+                font-size: 1.25rem;
+            }
+            
+            .subtitle-secondary {
+                font-size: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effect bg-effect-1"></div>
+    <div class="bg-effect bg-effect-2"></div>
+    <div class="bg-effect bg-effect-3"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Loading Spinner -->
+        <div class="spinner-container">
+            <div class="spinner">
+                <div class="spinner-ring spinner-ring-1"></div>
+                <div class="spinner-ring spinner-ring-2"></div>
+                <div class="spinner-ring spinner-ring-3"></div>
+            </div>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="main-title">Proses Pembuatan</h1>
+
+        <!-- Subtitle -->
+        <div class="subtitle-container">
+            <p class="subtitle-main">Website Sedang Dalam Proses Pembuatan</p>
+            <p class="subtitle-secondary">Kami sedang mempersiapkan sesuatu yang luar biasa untuk Anda<span id="dots"></span></p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="progress-text">Progress: 75%</p>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon icon-1">
+                    <div style="width: 24px; height: 24px; background: white; border-radius: 2px;"></div>
+                </div>
+                <h3 class="feature-title">Menu PPPoE Mikhmon</h3>
+                <p class="feature-description">Interface yang clean dan user-friendly</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-2">
+                    <div style="width: 24px; height: 24px; background: white; border-radius: 50%;"></div>
+                </div>
+                <h3 class="feature-title">Performa Cepat</h3>
+                <p class="feature-description">Loading time yang optimal</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-3">
+                    <div style="width: 24px; height: 24px; background: white; border-radius: 6px; transform: rotate(45deg);"></div>
+                </div>
+                <h3 class="feature-title">Fitur Lengkap</h3>
+                <p class="feature-description">Solusi usaha wifi vocher</p>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact">
+            <p class="contact-text">
+                Punya pertanyaan? Hubungi kami di 
+                <a class="contact-email" href="https://s.id/3VDnH" target="_blank">
+                    <strong>
+                        info@adn.my.id
+                    </strong>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-dot dot-1"></div>
+    <div class="floating-dot dot-2"></div>
+    <div class="floating-dot dot-3"></div>
+    <div class="floating-dot dot-4"></div>
+
+    <script>
+        // Animated dots for loading text
+let dotsCount = 0;
+const dotsElement = document.getElementById("dots");
+
+function animateDots() {
+  dotsCount = (dotsCount + 1) % 4;
+  dotsElement.textContent = ".".repeat(dotsCount);
+}
+
+// Start dots animation
+setInterval(animateDots, 500);
+
+// Optional: Progress bar animation
+let progress = 75;
+const progressFill = document.querySelector(".progress-fill");
+const progressText = document.querySelector(".progress-text");
+
+function updateProgress() {
+  if (progress < 100) {
+    progress += Math.random() * 2;
+    if (progress > 100) progress = 100;
+
+    progressFill.style.width = progress + "%";
+    progressText.textContent = `Progress: ${Math.floor(progress)}%`;
+
+    if (progress >= 100) {
+      progressText.textContent = "Progress: 100% - Hampir selesai!";
+      setTimeout(() => {
+        location.reload(); // ⬅️ auto refresh setelah delay
+      }, 2000); // Tunggu 2 detik sebelum refresh
+    }
+  }
+}
+
+// Jalankan animasi progress setiap 800ms
+setInterval(updateProgress, 800);
+
+// Add some interactive effects
+document.querySelectorAll(".feature-card").forEach((card) => {
+  card.addEventListener("mouseenter", function () {
+    this.style.transform = "translateY(-4px) scale(1.02)";
+  });
+
+  card.addEventListener("mouseleave", function () {
+    this.style.transform = "translateY(0) scale(1)";
+  });
+});
+
+    </script>
+</body>
+</html>
